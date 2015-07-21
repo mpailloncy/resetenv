@@ -37,13 +37,14 @@ alias c='clear'
 
 alias d='docker'
 alias dl='docker ps -l -q'
-alias dclean='docker rm $(docker ps -a -q)'
+alias dclean-all-containers='docker rm $(docker ps -a -q)'
 alias dm='docker-machine'
 alias dc='docker-compose'
 alias swarm='docker run swarm'
-alias clean-old-containers="docker ps -a | grep Exited | grep 'days ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
-alias cco=clean-old-containers
-alias clean-images='docker rmi $(docker images --filter dangling=true --quiet)'
+alias dclean-old-containers="docker ps -a | grep Exited | grep 'days ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
+alias cco=dclean-old-containers
+alias dclean-dangling-images='docker rmi $(docker images --filter dangling=true --quiet)'
+
 
 export EDITOR=vim
 alias gs='git status'
