@@ -27,7 +27,7 @@ windows:
   - resetenv: cd {{ resetenv_path }} && git status
   # ce if n'est pas pris en compte la 1ère fois sur un `mux start work`
   # TODO => trouver un moyen pour que ça fonctionne directement
-  {% if at_work == true %}
+{% if at_work == true %}
   - marmotte:
        layout: main-vertical
        panes:
@@ -37,4 +37,4 @@ windows:
   - ic: ssh ic
   - nexus: ssh nexus
   - git: ssh git
-  {% endif %}
+{% endif %}
