@@ -36,5 +36,6 @@ windows:
          - cd ~/workspace/pgih-marmotte && tig
   - ic: ssh ic
   - nexus: ssh nexus
+  - sonar: ssh sonar
   - git: ssh git
 {% endif %}
