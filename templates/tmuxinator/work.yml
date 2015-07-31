@@ -7,7 +7,7 @@ root: ~/
 # socket_name: foo
 
 # Runs before everything. Use it to start daemons etc.
-pre: {{ resetenv_path }}/resetenv -t fast
+pre: if [ "$mux_run_resetenv" != "0" ]; then {{ resetenv_path }}/resetenv -t fast; fi
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247

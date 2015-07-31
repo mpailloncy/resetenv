@@ -41,6 +41,9 @@ alias t='tmux'
 alias tls="tmux ls"
 alias ta="tmux a -t"
 alias tk="tmux kill-session -t"
+# durant changing context (work/home), variables are not correctly set the first time,
+# so we must set them before launching tmuxinator
+alias twork="r -t fast && mux_run_resetenv=0 mux start work"
 
 source {{ user.home }}/.tmuxinator-completion.zsh
 
@@ -69,7 +72,7 @@ alias lb='mvn clean install -DskipTests -Dinvoker.skip=true'
 
 function httpie_docker() {
 	docker run -it --rm --net=host clue/httpie $@
-}	
+}
 alias http=httpie_docker
 
 function resetenv() {
