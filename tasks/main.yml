@@ -68,19 +68,12 @@
    - groovy
    - ntpdate
    - rubygem-asciidoctor
-   # Personal
-   - kphotoalbum
-   - grisbi
    - tmux
    - tmuxinator
    - keepass
    - gimp
-   - ImageMagick
    - baobab
-   - audacity
    - vlc
-   - ffmpegthumbs
-   - kde-partitionmanager
 
 ###############################################################################################
 # Docker
