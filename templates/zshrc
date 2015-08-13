@@ -35,6 +35,8 @@ alias search='sudo dnf search'
 alias h='history'
 alias c='clear'
 
+alias show-listening-port="sudo netstat -taupn | grep LISTEN"
+
 # fixed windows name for tmux
 export DISABLE_AUTO_TITLE=true
 alias t='tmux'
