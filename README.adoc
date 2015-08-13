@@ -22,18 +22,16 @@ Get the code source :
 [source]
 $ git clone <REPO_URL> /local/path
 
-Sensitive data and variables are located in "vaulted" files inside the `vars` directory.
+Sensitive data and variables are located in "vaulted" files inside the `vars` directory. 
 
-If you want to reuse this role, you must override existing vaulted files with your own data and "vault" them with your own password.
+If you want to reuse this role, you must create your vaulted files with your own data and "vault" them with your own password.
 
-[source]
-$ rm -rf vars/*
 
-By default, `resetenv` script will search a file named `.vault-password` containing your password and use it to "unvault" your data.
-You need to create it :
+You have to create three vaulted files inside a `vars` directory (not "versioned" files) :
 
-[source]
-$ echo "yourP@ssw0rd" > .vault-password
+* `common-vars.yml.vault` : containing common variables
+* `sshconfig.yml.vault` : containing SSH config variables 
+* `work-vars.yml.vault` : containing work specific variables
 
 === Configure common variables
 [source]
@@ -54,6 +52,12 @@ Example of common-vars.yml.vault file content :
     host: my-work-proxy.hostname
 
 WARNING: You need to replace all `$variables` by your specific values
+
+By default, `resetenv` script will search a file named `.vault-password` containing your password and use it to "unvault" your data.
+You need to create it inside resetenv directory :
+
+[source]
+$ echo "yourP@ssw0rd" > .vault-password
 
 === Configure SSH config variables
 [source]
@@ -112,8 +116,23 @@ TIP: resetenv shell script is added in your PATH after provisioning (see zshrc t
 
 TIP: You can add any `ansible-playbook` options to resetenv shell script. Example: `resetenv -t fast` for a fast and basic reconfiguration (using `fast` tag).
 
+== Everyday usage
+
+After a first full provisioning has been done, the only way I'm using `resetenv` is to reset basic configuration files (docker, dnf, http_proxy settings) depending on my current location (work vs home).
+
+Examples : 
+
+[source]
+$ r -t fast
+
+or more often : 
+
+[source]
+$ twork
+
+This command is an alias to do a `resetenv -t fast` and start tmunixator directly configured depending on my location (see `templates/zshrc` and `templates/tmuxinator/work.yml`).
+
 == TODO
-* find a more elegant way to manage "vaulted" files, specific to each users
-* externalize list of basic packages to customize it per environment/user
 * manage SSH private/public key (vaulted)
 * manage home/work Maven settings
+* update atom/sublime-text plugins and configuration
