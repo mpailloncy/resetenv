@@ -40,12 +40,14 @@
 - name: Install RPMFusion free repository
   sudo: yes
   dnf: name="{{ cached }}" state=present
-
+  tags: rpmfusion
+  
 - { include: get-and-cache.yml, toget: "http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-22.noarch.rpm" }
 
 - name: Install RPMFusion non-free repository
   sudo: yes
   dnf: name="{{ cached }}" state=present
+  tags: rpmfusion
 
 - name: install packages
   sudo: yes
