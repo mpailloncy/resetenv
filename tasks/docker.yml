@@ -36,6 +36,10 @@
   sudo: yes
   tags: fast
 
+- name: start Docker on boot
+  sudo: yes
+  service: name=docker enabled=yes
+
 - { include: get-and-cache.yml, toget: "https://github.com/docker/machine/releases/download/v0.4.1/docker-machine_linux-amd64" }
 
 - name: Install Docker machine
