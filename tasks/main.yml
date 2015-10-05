@@ -76,6 +76,9 @@
    - gimp
    - baobab
    - vlc
+   - powerline
+   - tmux-powerline
+   - vim-plugin-powerline
 
 ###############################################################################################
 # Docker

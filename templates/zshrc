@@ -113,6 +113,8 @@ unsetproxy() {
 	unset https_proxy
 }
 
+source /usr/share/powerline/zsh/powerline.zsh
+
 if [ -f ~/.myzhrc ]; then
   source ~/.myzhrc
 fi
