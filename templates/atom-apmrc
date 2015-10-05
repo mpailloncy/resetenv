@@ -1,0 +1,2 @@
+http-proxy = '{{ proxy_env.http_proxy }}'
+https-proxy = '{{ proxy_env.https_proxy }}'
