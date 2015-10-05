@@ -1,13 +1,11 @@
-- name: Check standard docker package is *not* installed
-  sudo: yes
-  dnf: name=docker state=absent
 
-- { include: get-and-cache.yml, toget: "https://get.docker.com/rpm/1.7.0/fedora-22/RPMS/x86_64/docker-engine-1.7.0-1.fc22.x86_64.rpm" }
-
-- name: Install Docker Package from Docker Inc
+- name: Docker systemd configuration
   sudo: yes
-  dnf: name="{{ cached }}" state=present
-  environment: proxy_env
+  template: src=docker/docker.repo owner=root group=root dest=/etc/yum.repos.d/docker.repo
+
+- name: install packages
+  sudo: yes
+  dnf: name=docker-engine state=present
 
 - name: Create a docker group
   sudo: yes
@@ -21,14 +19,14 @@
 
 - name: Docker systemd configuration
   sudo: yes
-  template: src=docker-systemd-config owner=root group=root dest=/usr/lib/systemd/system/docker.service
+  template: src=docker/docker-systemd-config owner=root group=root dest=/usr/lib/systemd/system/docker.service
   notify:
    - restart docker
   tags: fast
 
 - name: Docker config file
   sudo: yes
-  template: src=docker-sysconfig owner=root group=root dest=/etc/sysconfig/docker
+  template: src=docker/docker-sysconfig owner=root group=root dest=/etc/sysconfig/docker
   notify:
    - restart docker
   tags: fast
