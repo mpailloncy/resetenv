@@ -78,7 +78,7 @@
    - vlc
    - powerline
    - tmux-powerline
-   - vim-plugin-powerline
+   - vim-powerline
 
 ###############################################################################################
 # Docker
