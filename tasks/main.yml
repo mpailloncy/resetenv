@@ -140,6 +140,10 @@
   template: src=zshrc owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.zshrc mode=644
   tags: fast
 
+- name: add tmux config file (powerline)
+  template: src=tmux.conf owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.tmux.conf mode=644
+  tags: fast
+
 - name: add tmuxinator-completion file for zsh
   copy: src=tmuxinator-completion.zsh owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.tmuxinator-completion.zsh mode=644
   tags: fast
