@@ -165,6 +165,11 @@
 - name: Uncompress Sublime under the tools directory
   unarchive: src="{{ cached }}" dest="{{ tools.path }}" creates={{ tools.path }}/sublime_text_3
 
+- name: create SublimeText3 user config folder
+  file:
+    path="{{ user.home }}/.config/sublime-text-3/Packages/User/"
+    state=directory
+
 - name: SublimeText3 configuration
   template: src=sublime-text-eclipse-style owner={{ user.name }} group={{ user.name }} dest="{{ user.home }}/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap" mode=664
   tags: fast
@@ -181,6 +186,11 @@
   sudo: yes
   dnf: name="{{ cached }}" state=present
   tags: atom
+
+- name: create Atom user config folder
+  file:
+    path="{{ user.home }}/.atom/"
+    state=directory
 
 - name: Setting up proxy for Atom Package Manager
   template:
