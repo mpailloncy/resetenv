@@ -115,6 +115,8 @@ unsetproxy() {
 
 source /usr/share/powerline/zsh/powerline.zsh
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 if [ -f ~/.myzhrc ]; then
   source ~/.myzhrc
 fi

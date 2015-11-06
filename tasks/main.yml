@@ -136,6 +136,13 @@
   git: repo=https://github.com/robbyrussell/oh-my-zsh dest={{ user.home }}/.oh-my-zsh
   environment: proxy_env
 
+- name: install fzf
+  git: repo=https://github.com/junegunn/fzf.git dest={{ user.home }}/.fzf
+  environment: proxy_env
+
+- name: add fzf zsh config file
+  template: src=fzf.zsh owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.fzf.zsh mode=644
+
 - name: add zshrc file
   template: src=zshrc owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.zshrc mode=644
   tags: fast
