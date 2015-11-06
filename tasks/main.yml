@@ -148,7 +148,6 @@
 
 - name: add tmuxinator-completion file for zsh
   copy: src=tmuxinator-completion.zsh owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.tmuxinator-completion.zsh mode=644
-  tags: fast
 
 - name: create tmuxinator config directories
   file: path={{ user.home }}/.tmuxinator owner={{ user.name }} group={{ user.name }} state=directory
@@ -160,7 +159,6 @@
 
 - name: add vimrc file
   template: src=vimrc owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.vimrc mode=644
-  tags: fast
 
 - { include: get-and-cache.yml, toget: "http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3083_x64.tar.bz2" }
 
@@ -174,7 +172,6 @@
 
 - name: SublimeText3 configuration
   template: src=sublime-text-eclipse-style owner={{ user.name }} group={{ user.name }} dest="{{ user.home }}/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap" mode=664
-  tags: fast
 
 - name: Setting up proxy for SublimeText Package Control Plugin
   template:
