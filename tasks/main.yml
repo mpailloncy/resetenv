@@ -109,17 +109,12 @@
   with_dict: sshconfig.hosts
   changed_when: false
 
-- name: Set Git autosquash true globally (todo => idempotentize)
-  shell: git config --global rebase.autosquash true
-  changed_when: false
-
 ###############################################################################################
 # tools settings
 #
-
-- name: Clone JEnv
-  git: repo=https://github.com/gcuisinier/jenv.git  dest="{{ user.home }}/.jenv"
-  environment: proxy_env
+- name: Set Git autosquash true globally (todo => idempotentize)
+  shell: git config --global rebase.autosquash true
+  changed_when: false
 
 - name: configure git
   shell: >
