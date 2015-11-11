@@ -131,9 +131,13 @@
   git: repo=https://github.com/robbyrussell/oh-my-zsh dest={{ user.home }}/.oh-my-zsh
   environment: proxy_env
 
-- name: install fzf
+- name: clone fzf repository
   git: repo=https://github.com/junegunn/fzf.git dest={{ user.home }}/.fzf
   environment: proxy_env
+
+- name: install fzf
+  shell: "{{ user.home }}/.fzf/install --all"
+  changed_when: false
 
 - name: add fzf zsh config file
   template: src=fzf.zsh owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.fzf.zsh mode=644
