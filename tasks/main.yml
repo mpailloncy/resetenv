@@ -1,5 +1,7 @@
 - include_vars: common-vars.yml.vault
-  tags: fast
+  tags: 
+    - fast
+    - ssh
 
 - name: Check that the current machine is a Fedora 22
   assert: { that: "ansible_distribution == 'Fedora' and ansible_distribution_version == '22'" }
@@ -89,12 +91,14 @@
 # ssh configuration
 #
 - include_vars: sshconfig.yml.vault
+  tags: ssh
 
 - name: remove current ssh config file
   file:
       path="{{ user.home }}/.ssh/config"
       state=absent
   changed_when: false
+  tags: ssh
 
 - name: generate ~/.ssh/config
   lineinfile:
@@ -108,6 +112,7 @@
       mode=0700
   with_dict: sshconfig.hosts
   changed_when: false
+  tags: ssh
 
 ###############################################################################################
 # tools settings
