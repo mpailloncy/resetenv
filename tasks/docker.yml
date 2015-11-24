@@ -5,7 +5,7 @@
 
 - name: install packages
   sudo: yes
-  dnf: name=docker-engine state=present
+  dnf: name=docker-engine-1.9.1 state=present
 
 - name: Create a docker group
   sudo: yes
