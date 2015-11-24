@@ -19,23 +19,15 @@ pre: if [ "$mux_run_resetenv" != "0" ]; then {{ resetenv_path }}/resetenv -t fas
 # tmux_command: byobu
 
 windows:
-  - home:
-      layout: main-vertical
-      panes:
-        - cd ~/workspace
-        - cd ~/workspace/tmp
+  - home: cd ~
   - resetenv: cd {{ resetenv_path }} && git status
   # ce if n'est pas pris en compte la 1ère fois sur un `mux start work`
   # TODO => trouver un moyen pour que ça fonctionne directement
 {% if at_work == true %}
-  - marmotte:
+  - dev:
        layout: main-vertical
        panes:
-         - cd ~/workspace/pgih-marmotte && git status
-         - cd ~/workspace/pgih-marmotte/marmotte-jenkins-plugin
-         - cd ~/workspace/pgih-marmotte && tig
-  - ic: ssh ic
-  - nexus: ssh nexus
-  - sonar: ssh sonar
-  - git: ssh git
+         - ssh dev 
+         - ssh dev-bdd
+  - integ: ssh integ
 {% endif %}
