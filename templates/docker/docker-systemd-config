@@ -6,7 +6,7 @@ Requires=docker.socket
 
 [Service]
 EnvironmentFile=-/etc/sysconfig/docker
-ExecStart=/usr/bin/docker daemon -H fd:// -H unix:///var/run/docker.sock {{ "--insecure-registry="+docker_internal_registry if at_work==true else "" }}
+ExecStart=/usr/bin/docker daemon -H fd:// -H unix:///var/run/docker.sock
 MountFlags=slave
 LimitNOFILE=1048576
 LimitNPROC=1048576

@@ -98,10 +98,7 @@ export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
 {% if at_work == true %}
-export MODE='MiPih'
-export http_proxy='{{ proxy_env.http_proxy }}'
-export https_proxy='{{ proxy_env.https_proxy }}'
-export no_proxy='{{ proxy_env.no_proxy }}'
+export MODE='OpenAirlines'
 {% else %}
 export MODE='HOME'
 {% endif %}

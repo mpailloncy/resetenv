@@ -24,13 +24,6 @@
    - restart docker
   tags: fast
 
-- name: Docker config file
-  sudo: yes
-  template: src=docker/docker-sysconfig owner=root group=root dest=/etc/sysconfig/docker
-  notify:
-   - restart docker
-  tags: fast
-
 - name: start and configure Docker
   service: name=docker state=started
   sudo: yes
@@ -45,7 +38,6 @@
 - name: Install Docker machine
   sudo: yes
   copy: src="{{ cached }}" dest=/usr/local/bin/docker-machine
-  environment: proxy_env
 
 - name: Make Docker Machine executable
   sudo: yes
@@ -56,7 +48,6 @@
 - name: Install Docker Compose
   sudo: yes
   copy: src="{{ cached }}" dest=/usr/local/bin/docker-compose
-  environment: proxy_env
 
 - name: Make Docker Machine compose
   sudo: yes

@@ -10,7 +10,7 @@
 # Work part
 #
 - name: at work ?
-  shell: "ping -c1 -i 0.2 {{ proxy.host }}"
+  shell: "ping -c1 -i 0.2 {{ pingued.host }}"
   register: i_am_at_work
   ignore_errors: yes
   changed_when: false
@@ -134,11 +134,9 @@
 
 - name: install oh-my-zsh
   git: repo=https://github.com/robbyrussell/oh-my-zsh dest={{ user.home }}/.oh-my-zsh
-  environment: proxy_env
 
 - name: clone fzf repository
   git: repo=https://github.com/junegunn/fzf.git dest={{ user.home }}/.fzf
-  environment: proxy_env
 
 - name: install fzf
   shell: "{{ user.home }}/.fzf/install --all"
@@ -182,7 +180,7 @@
 - name: SublimeText3 configuration
   template: src=sublime-text-eclipse-style owner={{ user.name }} group={{ user.name }} dest="{{ user.home }}/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap" mode=664
 
-- name: Setting up proxy for SublimeText Package Control Plugin
+- name: Settings SublimeText Package Control Plugin
   template:
     src=templates/PackageControl.sublime-settings
     dest="{{ user.home }}/.config/sublime-text-3/Packages/User/Package Control.sublime-settings"
@@ -200,20 +198,12 @@
     path="{{ user.home }}/.atom/"
     state=directory
 
-- name: Setting up proxy for Atom Package Manager
-  template:
-    src=templates/atom-apmrc
-    dest="{{ user.home }}/.atom/.apmrc"
-  tags: fast
-
 - name: Install Atom Asciidoctor Preview package
   shell: apm install asciidoc-preview
-  environment: proxy_env
   changed_when: false
 
 - name: Install Atom Asciidoctor Eclipse Keybindings package
   shell: apm install eclipse-keybindings
-  environment: proxy_env
   changed_when: false
 
 ###############################################################################################
