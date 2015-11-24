@@ -33,11 +33,17 @@
   sudo: yes
   service: name=docker enabled=yes
 
-- { include: get-and-cache.yml, toget: "https://github.com/docker/machine/releases/download/v0.5.0/docker-machine_linux-amd64" }
+- { include: get-and-cache.yml, toget: "https://github.com/docker/machine/releases/download/v0.5.1/docker-machine_linux-amd64.zip" }
 
-- name: Install Docker machine
+- name: Create unzip tmp cache directory for Docker Machine binaries
+  file: path={{ cachedir }}/docker-machine-unzip/ state=directory
+
+- name: Unzip downloaded Docker machine
+  unarchive: src="{{ cached }}" dest="{{ cachedir }}/docker-machine-unzip/"
+
+- name: Copy Docker machine binaries
   sudo: yes
-  copy: src="{{ cached }}" dest=/usr/local/bin/docker-machine
+  copy: src="{{ cachedir }}/docker-machine-unzip/" dest=/usr/local/bin/
 
 - name: Make Docker Machine executable
   sudo: yes
