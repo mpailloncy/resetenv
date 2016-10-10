@@ -20,14 +20,4 @@ pre: if [ "$mux_run_resetenv" != "0" ]; then {{ resetenv_path }}/resetenv -t fas
 
 windows:
   - home: cd ~
-  - resetenv: cd {{ resetenv_path }} && git status
-  # ce if n'est pas pris en compte la 1ère fois sur un `mux start work`
-  # TODO => trouver un moyen pour que ça fonctionne directement
-{% if at_work == true %}
-  - dev:
-       layout: main-vertical
-       panes:
-         - ssh dev 
-         - ssh dev-bdd
-  - integ: ssh integ
-{% endif %}
+  - workspace: cd ~/workspace

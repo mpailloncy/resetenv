@@ -43,9 +43,6 @@ alias t='tmux'
 alias tls="tmux ls"
 alias ta="tmux a -t"
 alias tk="tmux kill-session -t"
-# durant changing context (work/home), variables are not correctly set the first time,
-# so we must set them before launching tmuxinator
-alias twork="r -t fast && mux_run_resetenv=0 mux start work"
 
 source {{ user.home }}/.tmuxinator-completion.zsh
 
@@ -70,8 +67,6 @@ alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit
 alias gpr='git pull --rebase'
 alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 
-alias lb='mvn clean install -DskipTests -Dinvoker.skip=true'
-
 function httpie_docker() {
 	docker run -it --rm --net=host clue/httpie $@
 }
@@ -93,22 +88,7 @@ export GOPATH={{ user.home }}/workspace-go
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0
 export PATH=$JAVA_HOME/bin:$PATH
 
-# JEnv config -- see http://www.jenv.be/
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
-
-{% if at_work == true %}
-export MODE='OpenAirlines'
-{% else %}
-export MODE='HOME'
-{% endif %}
-
 export PS1="[$MODE] $PS1"
-
-unsetproxy() {
-	unset http_proxy
-	unset https_proxy
-}
 
 source /usr/share/powerline/zsh/powerline.zsh
 
