@@ -26,6 +26,7 @@
    - git
    - git-gui
    - tig
+   - htop
    - tree
    - unzip
    - vagrant
