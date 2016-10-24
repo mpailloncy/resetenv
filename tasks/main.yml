@@ -1,4 +1,4 @@
-- include_vars: common-vars.yml.vault
+- include_vars: common-vars.yml
 
 - name: Check that the current machine is a Fedora 24
   assert: { that: "ansible_distribution == 'Fedora' and ansible_distribution_version == '24'" }
@@ -48,7 +48,7 @@
 ###############################################################################################
 # Docker
 #
-# - include: docker.yml
+- include: docker.yml
 
 ###############################################################################################
 # tools settings
