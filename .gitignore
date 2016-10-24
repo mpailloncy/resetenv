@@ -1,3 +1,4 @@
 .vault-password
 *.vault
+*vars.yml
 *.retry
