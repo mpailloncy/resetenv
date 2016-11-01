@@ -100,6 +100,12 @@
 - name: add vimrc file
   template: src=vimrc owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.vimrc mode=644
 
+
+- name: set correct permission on oh-my-zsh directory
+  file: path={{ user.home }}/.fzf owner={{ user.name }} group={{ user.name }} recurse=yes state=directory
+  with_items:
+    - "{{ user.home }}/.oh-my-zsh"
+    - "{{ user.home }}/.fzf"
 ###############################################################################################
 # VirtualBox
 #
