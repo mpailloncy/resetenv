@@ -1,2 +1,10 @@
-syntax on
+colorscheme lucius
+LuciusDark
+
+syntax enable
+set tabstop=4
+set number
+set relativenumber
+set clipboard=unnamedplus
+
 autocmd Filetype gitcommit setlocal textwidth=72

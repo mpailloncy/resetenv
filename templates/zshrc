@@ -27,7 +27,7 @@ alias ll='ls -lh'
 alias ls='ls --color=tty'
 alias l=ls
 
-alias vi="vim"
+alias vi="vimx"
 
 alias get='sudo dnf install'
 alias search='sudo dnf search'
@@ -61,7 +61,7 @@ function docker_clean_orphan_volumes() {
 }
 alias dclean-orphan-volumes=docker_clean_orphan_volumes
 
-export EDITOR=vim
+export EDITOR=vimx
 alias gs='git status'
 alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit -m "--wip--"'
 alias gpr='git pull --rebase'

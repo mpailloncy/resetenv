@@ -43,6 +43,7 @@
    - vlc
    - powerline
    - tmux-powerline
+   - vim-X11
    - vim-powerline
 
 ###############################################################################################
@@ -53,6 +54,9 @@
 ###############################################################################################
 # tools settings
 #
+
+# Disable beep/bell on Gnome :
+# gsettings set org.gnome.desktop.wm.preferences audible-bell false
 
 - name: configure git name
   git_config: 
@@ -100,12 +104,20 @@
 - name: add vimrc file
   template: src=vimrc owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.vimrc mode=644
 
+- name: create vim color config directory
+  file: path={{ user.home }}/.vim/colors/ owner={{ user.name }} group={{ user.name }} state=directory
+
+- name: download lucius vim template
+  get_url:
+    url: "https://raw.githubusercontent.com/jonathanfilip/vim-lucius/master/colors/lucius.vim"
+    dest: "{{ user.home }}/.vim/colors/lucius.vim"
 
 - name: set correct permission on oh-my-zsh directory
   file: path={{ user.home }}/.fzf owner={{ user.name }} group={{ user.name }} recurse=yes state=directory
   with_items:
     - "{{ user.home }}/.oh-my-zsh"
     - "{{ user.home }}/.fzf"
+
 ###############################################################################################
 # VirtualBox
 #
