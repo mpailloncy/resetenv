@@ -35,6 +35,11 @@ alias search='sudo dnf search'
 alias h='history'
 alias c='clear'
 
+function _mki() {
+	mkdir -p $1 && cd $_
+}
+alias mki=_mki
+
 alias show-listening-port="sudo netstat -taupn | grep LISTEN"
 
 # fixed windows name for tmux
