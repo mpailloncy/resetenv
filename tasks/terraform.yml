@@ -1,0 +1,15 @@
+---
+
+- name: Create terraform directory
+  file: path={{ tools.path }}/terraform owner={{ user.name }} group={{ user.name }} state=directory
+
+- { include: get-and-cache.yml, toget: "{{ tools.terraform.url }}" }
+
+- name: Copy terraform zip to tools directory
+  copy: src="{{ cached }}" dest={{ tools.path }}/terraform/
+
+- name: Unzip Terraform
+  unarchive:  src={{ tools.path }}/terraform/{{ tools.terraform.zip }} dest={{ tools.path }}/terraform/
+
+- name: Set +x on terraform executable
+  file: path={{ tools.path }}/terraform/terraform state=file mode="u+rwx,g+rx"
