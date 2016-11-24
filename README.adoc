@@ -3,18 +3,15 @@
 This role permits to install/configure a basic development environment.
 
 == Features
-* Dynamically configures proxy settings (dnf, docker)
 * Installs and configures :
 ** some basic packages
 ** some basic config files
 ** docker, docker-compose, docker-machine
-** SublimeText3
-** Atom
 ** ssh config files
 
 == Prerequisites
-* Fedora 22
-* Ansible (currently tested on 1.9.2)
+* Fedora 24
+* Ansible 2
 
 == Install & Configure it
 
