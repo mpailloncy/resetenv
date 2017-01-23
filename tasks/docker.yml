@@ -22,7 +22,7 @@
 - name: start Docker on boot
   systemd: name=docker enabled=yes
 
-- { include: get-and-cache.yml, toget: "https://github.com/docker/machine/releases/download/v0.8.2/docker-machine-Linux-x86_64" }
+- { include: get-and-cache.yml, toget: "https://github.com/docker/machine/releases/download/v0.9.0/docker-machine-Linux-x86_64" }
 
 - name: Install Docker Machine
   copy: src="{{ cached }}" dest=/usr/local/bin/docker-machine
