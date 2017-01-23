@@ -3,7 +3,7 @@
   template: src=docker/docker.repo owner=root group=root dest=/etc/yum.repos.d/docker.repo
 
 - name: install packages
-  dnf: name=docker-engine-1.12.3 state=present
+  dnf: name=docker-engine-1.13.0 state=present
 
 - name: Create a docker group
   group: name=docker state=present
