@@ -1,18 +1,18 @@
 - include_vars: common-vars.yml
 
-- name: Check that the current machine is a Fedora 24
-  assert: { that: "ansible_distribution == 'Fedora' and ansible_distribution_version == '24'" }
+- name: Check that the current machine is a Fedora 25
+  assert: { that: "ansible_distribution == 'Fedora' and ansible_distribution_version == '25'" }
 
 ###############################################################################################
 # install packages
 #
-- { include: get-and-cache.yml, toget: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-24.noarch.rpm" }
+- { include: get-and-cache.yml, toget: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-25.noarch.rpm" }
 
 - name: Install RPMFusion free repository
   dnf: name="{{ cached }}" state=present
   tags: rpmfusion
 
-- { include: get-and-cache.yml, toget: "http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-24.noarch.rpm" }
+- { include: get-and-cache.yml, toget: "http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-25.noarch.rpm" }
 
 - name: Install RPMFusion non-free repository
   dnf: name="{{ cached }}" state=present
