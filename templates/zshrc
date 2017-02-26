@@ -92,6 +92,8 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 export PATH={{ tools.path }}/terraform/:$PATH
 
+alias f=vifm
+
 export PS1="[$MODE] $PS1"
 
 source /usr/share/powerline/zsh/powerline.zsh

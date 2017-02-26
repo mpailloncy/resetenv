@@ -45,6 +45,7 @@
    - tmux-powerline
    - vim-X11
    - vim-powerline
+   - vifm
    - shutter
 
 ###############################################################################################
@@ -117,6 +118,12 @@
   get_url:
     url: "https://raw.githubusercontent.com/jonathanfilip/vim-lucius/master/colors/lucius.vim"
     dest: "{{ user.home }}/.vim/colors/lucius.vim"
+
+- name: add vifm_solarized-dark color schema
+  template: src=vifm-solarized-dark owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.config/vifm/colors/solarized-dark mode=644
+
+- name: set vifm color schema
+  lineinfile: dest={{ user.home }}/.config/vifm/vifmrc regexp='^colorscheme Default' line='colorscheme solarized-dark'
 
 - name: set correct permission on oh-my-zsh directory
   file: path={{ user.home }}/.fzf owner={{ user.name }} group={{ user.name }} recurse=yes state=directory
