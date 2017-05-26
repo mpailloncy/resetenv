@@ -13,5 +13,9 @@
   unarchive:  src={{ tools.path }}/terraform/{{ tools.terraform.zip }} dest={{ tools.path }}/terraform/
   when: cache_changed
   
+- name: Cleanup downloaded zip file
+  file: path={{ tools.path }}/terraform/{{ tools.terraform.zip }} state=absent
+  when: cache_changed
+
 - name: Set +x on terraform executable
   file: path={{ tools.path }}/terraform/terraform state=file mode="u+rwx,g+rx"
