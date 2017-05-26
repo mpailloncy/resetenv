@@ -5,4 +5,5 @@
   get_url: url="{{ toget }}" dest="{{ cachedir }}/{{ ( toget | basename )  if ( toget | basename ) != 'rpm' else (( toget | md5)+'.rpm') }}"
   register: cachedurl
 
+- set_fact: cache_changed="{{ cachedurl.changed }}"
 - set_fact: cached="{{ cachedurl.dest }}"
