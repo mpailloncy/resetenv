@@ -24,7 +24,6 @@
    - zsh
    - libselinux-python
    - git
-   - git-gui
    - tig
    - htop
    - tree
