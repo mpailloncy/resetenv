@@ -53,18 +53,9 @@ source {{ user.home }}/.tmuxinator-completion.zsh
 
 alias d='docker'
 alias dl='docker ps -l -q'
-alias dclean-all-containers='docker rm $(docker ps -a -q)'
 alias dm='docker-machine'
 alias dc='docker-compose'
-alias swarm='docker run swarm'
-alias dclean-old-containers="docker ps -a | grep Exited | grep 'days ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm"
-alias cco=dclean-old-containers
-alias dclean-dangling-images='docker rmi $(docker images --filter dangling=true --quiet)'
-
-function docker_clean_orphan_volumes() {
- 	docker run -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker:/var/lib/docker --rm martin/docker-cleanup-volumes $@
-}
-alias dclean-orphan-volumes=docker_clean_orphan_volumes
+alias dcleanup='docker system prune'
 
 export EDITOR=vimx
 alias gs='git status'
