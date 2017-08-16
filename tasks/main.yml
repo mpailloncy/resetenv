@@ -7,19 +7,21 @@
 # install packages
 #
 - name: Install RPMFusion free repository
-  dnf: 
-    name: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-26.noarch.rpm" 
+  dnf:
+    name: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-26.noarch.rpm"
     state: present
   tags: rpmfusion
 
 - name: Install RPMFusion non-free repository
-  dnf: 
-    name: "http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-26.noarch.rpm" 
+  dnf:
+    name: "http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-26.noarch.rpm"
     state: present
   tags: rpmfusion
 
 - name: install packages
-  dnf: name={{ item }} state=present
+  dnf:
+    name: "{{ item }}"
+    state: present
   with_items:
    - zsh
    - libselinux-python
@@ -72,53 +74,97 @@
 # gsettings set org.gnome.desktop.wm.preferences audible-bell false
 
 - name: configure git name
-  git_config: 
-    name=user.name 
-    scope=system
-    value="{{ user.fullName }}"
+  git_config:
+    name: user.name
+    scope: system
+    value: "{{ user.fullName }}"
 
 - name: configure git email
-  git_config: 
-    name=user.email
-    scope=system 
-    value="{{ user.email }}"
+  git_config:
+    name: user.email
+    scope: system
+    value: "{{ user.email }}"
 
 - name: set default shell to zsh
-  user: name={{ user.name }} shell=/usr/bin/zsh state=present
+  user:
+    name: "{{ user.name }}"
+    shell: /usr/bin/zsh
+    state: present
 
 - name: install oh-my-zsh
-  git: repo=https://github.com/robbyrussell/oh-my-zsh dest={{ user.home }}/.oh-my-zsh
+  git:
+    repo: "https://github.com/robbyrussell/oh-my-zsh"
+    dest: "{{ user.home }}/.oh-my-zsh"
 
 - name: clone fzf repository
-  git: repo=https://github.com/junegunn/fzf.git dest={{ user.home }}/.fzf
+  git:
+    repo: "https://github.com/junegunn/fzf.git"
+    dest: "{{ user.home }}/.fzf"
 
 - name: install fzf
   shell: "{{ user.home }}/.fzf/install --all"
   changed_when: false
 
 - name: add fzf zsh config file
-  template: src=fzf.zsh owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.fzf.zsh mode=644
+  template:
+    src: fzf.zsh
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    dest: "{{ user.home }}/.fzf.zsh"
+    mode: 0644
 
 - name: add zshrc file
-  template: src=zshrc owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.zshrc mode=644
+  template:
+    src: zshrc
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    dest: "{{ user.home }}/.zshrc"
+    mode: 0644
 
 - name: add tmux config file (powerline)
-  template: src=tmux.conf owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.tmux.conf mode=644
+  template:
+    src: tmux.conf
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    dest: "{{ user.home }}/.tmux.conf"
+    mode: 0644
 
 - name: add tmuxinator-completion file for zsh
-  copy: src=tmuxinator-completion.zsh owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.tmuxinator-completion.zsh mode=644
+  copy:
+    src: "tmuxinator-completion.zsh"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    dest: "{{ user.home }}/.tmuxinator-completion.zsh"
+    mode: 0644
 
 - name: create tmuxinator config directories
-  file: path={{ user.home }}/.tmuxinator owner={{ user.name }} group={{ user.name }} state=directory
+  file:
+    path: "{{ user.home }}/.tmuxinator"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    state: directory
 
 - name: add tmuxinator config file
-  template: src=tmuxinator/work.yml owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.tmuxinator/work.yml
+  template:
+    src: tmuxinator/work.yml
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    dest: "{{ user.home }}/.tmuxinator/work.yml"
 
 - name: add vimrc file
-  template: src=vimrc owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.vimrc mode=644
+  template:
+    src: vimrc
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    dest: "{{ user.home }}/.vimrc"
+    mode: 0644
 
 - name: create vim color config directory
-  file: path={{ user.home }}/.vim/colors/ owner={{ user.name }} group={{ user.name }} state=directory
+  file:
+    path: "{{ user.home }}/.vim/colors/"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    state: directory
 
 - name: download lucius vim template
   get_url:
@@ -126,16 +172,19 @@
     dest: "{{ user.home }}/.vim/colors/lucius.vim"
 
 - name: add vifm_solarized-dark color schema
-  template: src=vifm-solarized-dark owner={{ user.name }} group={{ user.name }} dest={{ user.home }}/.config/vifm/colors/solarized-dark mode=644
+  template:
+    src: vifm-solarized-dark
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    dest: "{{ user.home }}/.config/vifm/colors/solarized-dark"
+    mode: 0644
 
 - name: set vifm color schema
-  lineinfile: dest={{ user.home }}/.config/vifm/vifmrc regexp='^colorscheme Default' line='colorscheme solarized-dark'
-
-- name: set correct permission on oh-my-zsh directory
-  file: path={{ user.home }}/.fzf owner={{ user.name }} group={{ user.name }} recurse=yes state=directory
-  with_items:
-    - "{{ user.home }}/.oh-my-zsh"
-    - "{{ user.home }}/.fzf"
+  lineinfile:
+    dest: "{{ user.home }}/.config/vifm/vifmrc"
+    line: 'colorscheme solarized-dark'
+    insertafter: EOF
+    state: present
 
 ###############################################################################################
 # VirtualBox

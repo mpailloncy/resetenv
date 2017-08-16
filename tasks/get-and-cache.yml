@@ -1,9 +1,18 @@
+---
+
 - name: Create tools cache dir
-  file: name="{{ cachedir }}" owner={{ user.name }} group={{ user.name }} state=directory
+  file:
+    name: "{{ cachedir }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    state: directory
 
 - name: Get the requested file {{ toget }}
-  get_url: url="{{ toget }}" dest="{{ cachedir }}/{{ ( toget | basename )  if ( toget | basename ) != 'rpm' else (( toget | md5)+'.rpm') }}"
+  get_url:
+    url: "{{ toget }}"
+    dest: "{{ cachedir }}/{{ ( toget | basename )  if ( toget | basename ) != 'rpm' else (( toget | md5)+'.rpm') }}"
   register: cachedurl
 
 - set_fact: cache_changed="{{ cachedurl.changed }}"
+
 - set_fact: cached="{{ cachedurl.dest }}"

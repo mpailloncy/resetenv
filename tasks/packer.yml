@@ -1,21 +1,34 @@
 ---
 
 - name: Create packer directory
-  file: path={{ tools.path }}/packer owner={{ user.name }} group={{ user.name }} state=directory
+  file:
+    path: "{{ tools.path }}/packer"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    state: directory
 
 - { include: get-and-cache.yml, toget: "{{ tools.packer.url }}" }
 
 - name: Copy packer zip to tools directory
-  copy: src="{{ cached }}" dest={{ tools.path }}/packer/
+  copy:
+    src: "{{ cached }}"
+    dest: "{{ tools.path }}/packer/"
   when: cache_changed
 
-- name: Unzip Packer 
-  unarchive:  src={{ tools.path }}/packer/{{ tools.packer.zip }} dest={{ tools.path }}/packer/
+- name: Unzip Packer
+  unarchive:
+    src: "{{ tools.path }}/packer/{{ tools.packer.zip }}"
+    dest: "{{ tools.path }}/packer/"
   when: cache_changed
 
 - name: Cleanup downloaded zip file
-  file: path={{ tools.path }}/packer/{{ tools.packer.zip }} state=absent
+  file:
+    path: "{{ tools.path }}/packer/{{ tools.packer.zip }}"
+    state: absent
   when: cache_changed
 
 - name: Set +x on packer executable
-  file: path={{ tools.path }}/packer/packer state=file mode="u+rwx,g+rx"
+  file:
+    path: "{{ tools.path }}/packer/packer"
+    state: file
+    mode: "u+rwx,g+rx"

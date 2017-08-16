@@ -1,21 +1,34 @@
 ---
 
 - name: Create terraform directory
-  file: path={{ tools.path }}/terraform owner={{ user.name }} group={{ user.name }} state=directory
+  file:
+    path: "{{ tools.path }}/terraform"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    state: directory
 
 - { include: get-and-cache.yml, toget: "{{ tools.terraform.url }}" }
 
 - name: Copy terraform zip to tools directory
-  copy: src="{{ cached }}" dest={{ tools.path }}/terraform/
+  copy:
+    src: "{{ cached }}"
+    dest: "{{ tools.path }}/terraform"
   when: cache_changed
 
 - name: Unzip Terraform
-  unarchive:  src={{ tools.path }}/terraform/{{ tools.terraform.zip }} dest={{ tools.path }}/terraform/
+  unarchive:
+    src: "{{ tools.path }}/terraform/{{ tools.terraform.zip }}"
+    dest: "{{ tools.path }}/terraform"
   when: cache_changed
-  
+
 - name: Cleanup downloaded zip file
-  file: path={{ tools.path }}/terraform/{{ tools.terraform.zip }} state=absent
+  file:
+    path: "{{ tools.path }}/terraform/{{ tools.terraform.zip }}"
+    state: absent
   when: cache_changed
 
 - name: Set +x on terraform executable
-  file: path={{ tools.path }}/terraform/terraform state=file mode="u+rwx,g+rx"
+  file:
+    path: "{{ tools.path }}/terraform/terraform"
+    state: file
+    mode: "u+rwx,g+rx"

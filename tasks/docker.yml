@@ -1,39 +1,68 @@
 
 - name: Docker systemd configuration
-  template: src=docker/docker.repo owner=root group=root dest=/etc/yum.repos.d/docker.repo
+  template: 
+    src: docker/docker.repo 
+    owner: root 
+    group: root 
+    dest: /etc/yum.repos.d/docker.repo
 
 - name: install packages
-  dnf: name=docker-engine-17.05.0.ce-1.fc25 state=present
+  dnf: 
+    name: docker-engine-17.05.0.ce-1.fc25 
+    state: present
 
 - name: Create a docker group
-  group: name=docker state=present
+  group: 
+    name: docker
+    state: present
 
 - name: Add the current user to the docker group
-  user: name="{{ user.name }}" groups=docker append=yes
+  user: 
+    name: "{{ user.name }}" 
+    groups: docker 
+    append: yes
 
 - name: Docker systemd configuration
-  template: src=docker/docker-systemd-config owner=root group=root dest=/usr/lib/systemd/system/docker.service
+  template:
+    src: docker/docker-systemd-config 
+    owner: root
+    group: root
+    dest: /usr/lib/systemd/system/docker.service
   notify:
    - restart docker
 
 - name: start and configure Docker
-  systemd: name=docker state=started
+  systemd: 
+    name: docker 
+    state: started
 
 - name: start Docker on boot
-  systemd: name=docker enabled=yes
+  systemd:
+    name: docker
+    enabled: yes
 
 - { include: get-and-cache.yml, toget: "https://github.com/docker/machine/releases/download/v0.12.2/docker-machine-Linux-x86_64" }
 
 - name: Install Docker Machine
-  copy: src="{{ cached }}" dest=/usr/local/bin/docker-machine
+  copy: 
+    src: "{{ cached }}" 
+    dest: /usr/local/bin/docker-machine
 
 - name: Make Docker Machine executable
-  file: path=/usr/local/bin/docker-machine state=file mode="u+rx,a+x,g+x"
+  file:
+    path: /usr/local/bin/docker-machine
+    state: file
+    mode: "u+rx,a+x,g+x"
 
 - { include: get-and-cache.yml, toget: "https://github.com/docker/compose/releases/download/1.15.0/docker-compose-Linux-x86_64" }
 
 - name: Install Docker Compose
-  copy: src="{{ cached }}" dest=/usr/local/bin/docker-compose
+  copy: 
+    src: "{{ cached }}"
+    dest: /usr/local/bin/docker-compose
 
 - name: Make Docker Machine compose
-  file: path=/usr/local/bin/docker-compose state=file mode="u+rx,a+x,g+x"
+  file: 
+    path: /usr/local/bin/docker-compose
+    state: file
+    mode: "u+rx,a+x,g+x"
