@@ -1,4 +1,4 @@
 #!/bin/bash
 
-currentDir=$( cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P )
-ansible-playbook -i $currentDir/hosts $currentDir/playbook.yml -e resetenv_path=$currentDir $@
+__dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ansible-playbook -i ${__dir}/hosts ${__dir}/playbook.yml -e resetenv_path=${__dir} $@
