@@ -7,11 +7,12 @@ This role permits to install/configure a basic development environment.
 ** some basic packages
 ** some basic config files
 ** docker, docker-compose, docker-machine
+** packer, vagrant, terraform
 ** ssh config files
 
 == Prerequisites
-* Fedora 24
-* Ansible 2
+* Fedora 26
+* Ansible 2.3
 
 == Install & Configure it
 
@@ -19,7 +20,7 @@ Get the code source :
 [source]
 $ git clone <REPO_URL> /local/path
 
-Sensitive data and variables are located in "vaulted" files inside the `vars` directory. 
+Sensitive data and variables are located in "vaulted" files inside the `vars` directory.
 
 If you want to reuse this role, you must create your vaulted files with your own data and "vault" them with your own password.
 
@@ -27,7 +28,7 @@ If you want to reuse this role, you must create your vaulted files with your own
 You have to create three vaulted files inside a `vars` directory (not "versioned" files) :
 
 * `common-vars.yml.vault` : containing common variables
-* `sshconfig.yml.vault` : containing SSH config variables 
+* `sshconfig.yml.vault` : containing SSH config variables
 * `work-vars.yml.vault` : containing work specific variables
 
 === Configure common variables
@@ -40,7 +41,7 @@ Example of common-vars.yml.vault file content :
   user:
     name: mikl
     fullName: Michael Pailloncy
-    email: mpapo.dev@gmail.com
+    email: michael.pailloncy@gmail.com
     home: /home/mikl
   cachedir: /home/mikl/.ansible-cache
   tools:
@@ -117,19 +118,14 @@ TIP: You can add any `ansible-playbook` options to resetenv shell script. Exampl
 
 After a first full provisioning has been done, the only way I'm using `resetenv` is to reset basic configuration files (docker, dnf, http_proxy settings) depending on my current location (work vs home).
 
-Examples : 
+Examples :
 
 [source]
 $ r -t fast
 
-or more often : 
+or more often :
 
 [source]
 $ twork
 
 This command is an alias to do a `resetenv -t fast` and start tmunixator directly configured depending on my location (see `templates/zshrc` and `templates/tmuxinator/work.yml`).
-
-== TODO
-* manage SSH private/public key (vaulted)
-* manage home/work Maven settings
-* update atom/sublime-text plugins and configuration
