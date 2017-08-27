@@ -88,6 +88,9 @@ alias p="packer"
 
 alias f=vifm
 
+alias secpass="openssl rand -base64 24"
+alias hexpass="openssl rand -hex 24"
+
 export PS1="[$MODE] $PS1"
 
 source /usr/share/powerline/zsh/powerline.zsh
