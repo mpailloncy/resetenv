@@ -1,0 +1,40 @@
+---
+
+- name: Create kubernetes directory
+  file:
+    path: "{{ tools.path }}/kubernetes"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    state: directory
+
+- { include: get-and-cache.yml, toget: "{{ tools.kubectl.url }}" }
+
+- name: Copy kubectl binary to tools directory
+  copy:
+    src: "{{ cached }}"
+    dest: "{{ tools.path }}/kubernetes/kubectl"
+  when: cache_changed
+
+- name: Set +x on kubectl executable
+  file:
+    path: "{{ tools.path }}/kubernetes/kubectl"
+    state: file
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "u+rwx,g+rx"
+
+- { include: get-and-cache.yml, toget: "{{ tools.minikube.url }}" }
+
+- name: Copy minikube binary to tools directory
+  copy:
+    src: "{{ cached }}"
+    dest: "{{ tools.path }}/kubernetes/minikube"
+  when: cache_changed
+
+- name: Set +x on minikube executable
+  file:
+    path: "{{ tools.path }}/kubernetes/minikube"
+    state: file
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "u+rwx,g+rx"

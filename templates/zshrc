@@ -86,6 +86,10 @@ export PATH={{ tools.path }}/terraform/:$PATH
 export PATH={{ tools.path }}/packer/:$PATH
 alias p="packer"
 
+export PATH={{ tools.path }}/kubernetes/:$PATH
+alias k="kubectl"
+source <(kubectl completion zsh)
+
 alias f=vifm
 
 alias secpass="openssl rand -base64 24"
