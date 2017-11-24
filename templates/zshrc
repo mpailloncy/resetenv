@@ -88,6 +88,14 @@ alias p="packer"
 
 export PATH={{ tools.path }}/kubernetes/:$PATH
 alias k="kubectl"
+alias kg='kubectl get'
+alias kgpo='kubectl get pods'
+alias krm='kubectl delete'
+alias krmf='kubectl delete -f'
+alias ka='kubectl apply -f'
+alias klo='kubectl logs -f'
+alias kex='kubectl exec -i -t'
+
 source <(kubectl completion zsh)
 
 alias f=vifm
