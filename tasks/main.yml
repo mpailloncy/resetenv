@@ -1,20 +1,20 @@
 - include_vars: common-vars.yml
 
-- name: Check that the current machine is a Fedora 26
-  assert: { that: "ansible_distribution == 'Fedora' and ansible_distribution_version == '26'" }
+- name: Check that the current machine is a Fedora 27
+  assert: { that: "ansible_distribution == 'Fedora' and ansible_distribution_version == '27'" }
 
 ###############################################################################################
 # install packages
 #
 - name: Install RPMFusion free repository
   dnf:
-    name: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-26.noarch.rpm"
+    name: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-27.noarch.rpm"
     state: present
   tags: rpmfusion
 
 - name: Install RPMFusion non-free repository
   dnf:
-    name: "http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-26.noarch.rpm"
+    name: "http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-27.noarch.rpm"
     state: present
   tags: rpmfusion
 
