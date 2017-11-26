@@ -38,3 +38,19 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "u+rwx,g+rx"
+
+- { include: get-and-cache.yml, toget: "{{ tools.kops.url }}" }
+
+- name: Copy kops binary to tools directory
+  copy:
+    src: "{{ cached }}"
+    dest: "{{ tools.path }}/kubernetes/kops"
+  when: cache_changed
+
+- name: Set +x on kops executable
+  file:
+    path: "{{ tools.path }}/kubernetes/kops"
+    state: file
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "u+rwx,g+rx"
