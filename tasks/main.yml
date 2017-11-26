@@ -49,6 +49,16 @@
    - vifm
    - maven
    - gradle
+   - python3-pip
+   - python2-pip
+
+- name: install python packages
+  pip:
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    state: present
+  with_items:
+    - { name: awscli, version: 1.12.1 }
 
 ###############################################################################################
 # Docker
