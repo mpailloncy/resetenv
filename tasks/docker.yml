@@ -1,30 +1,30 @@
 
-- name: Docker systemd configuration
-  template: 
-    src: docker/docker.repo 
-    owner: root 
-    group: root 
-    dest: /etc/yum.repos.d/docker.repo
+- name: docker-ce dnf repo configuration
+  template:
+    src: docker/docker-ce.repo
+    owner: root
+    group: root
+    dest: /etc/yum.repos.d/docker-ce.repo
 
 - name: install packages
-  dnf: 
-    name: docker-engine-17.05.0.ce-1.fc25 
+  dnf:
+    name: docker-ce-{{ docker.engine.version }}.ce-1.fc27
     state: present
 
 - name: Create a docker group
-  group: 
+  group:
     name: docker
     state: present
 
 - name: Add the current user to the docker group
-  user: 
-    name: "{{ user.name }}" 
-    groups: docker 
+  user:
+    name: "{{ user.name }}"
+    groups: docker
     append: yes
 
 - name: Docker systemd configuration
   template:
-    src: docker/docker-systemd-config 
+    src: docker/docker-systemd-config
     owner: root
     group: root
     dest: /usr/lib/systemd/system/docker.service
@@ -32,8 +32,8 @@
    - restart docker
 
 - name: start and configure Docker
-  systemd: 
-    name: docker 
+  systemd:
+    name: docker
     state: started
 
 - name: start Docker on boot
@@ -41,11 +41,11 @@
     name: docker
     enabled: yes
 
-- { include: get-and-cache.yml, toget: "https://github.com/docker/machine/releases/download/v0.12.2/docker-machine-Linux-x86_64" }
+- { include: get-and-cache.yml, toget: "https://github.com/docker/machine/releases/download/v{{ docker.machine.version }}/docker-machine-Linux-x86_64" }
 
 - name: Install Docker Machine
-  copy: 
-    src: "{{ cached }}" 
+  copy:
+    src: "{{ cached }}"
     dest: /usr/local/bin/docker-machine
 
 - name: Make Docker Machine executable
@@ -54,15 +54,15 @@
     state: file
     mode: "u+rx,a+x,g+x"
 
-- { include: get-and-cache.yml, toget: "https://github.com/docker/compose/releases/download/1.15.0/docker-compose-Linux-x86_64" }
+- { include: get-and-cache.yml, toget: "https://github.com/docker/compose/releases/download/{{ docker.compose.version }}/docker-compose-Linux-x86_64" }
 
 - name: Install Docker Compose
-  copy: 
+  copy:
     src: "{{ cached }}"
     dest: /usr/local/bin/docker-compose
 
 - name: Make Docker Machine compose
-  file: 
+  file:
     path: /usr/local/bin/docker-compose
     state: file
     mode: "u+rx,a+x,g+x"
