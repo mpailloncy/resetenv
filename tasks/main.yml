@@ -184,6 +184,8 @@
   get_url:
     url: "https://raw.githubusercontent.com/jonathanfilip/vim-lucius/master/colors/lucius.vim"
     dest: "{{ user.home }}/.vim/colors/lucius.vim"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
 
 - name: add vifm_solarized-dark color schema
   template:
