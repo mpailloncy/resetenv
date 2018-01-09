@@ -104,6 +104,17 @@
     - { name: "alias.r", value: "rebase" }
     - { name: "alias.rha", value: "reset --hard" }
 
+- name: configure git GPG config
+  become: no
+  git_config:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: global
+  when: user.gpgsign is defined and user.gpgsign == true
+  items:
+    - { name: "commit.gpgsign", value: "true" }
+    - { name: "user.signingkey", value: "{{ user.signingkey }}" }
+
 - name: set default shell to zsh
   user:
     name: "{{ user.name }}"
