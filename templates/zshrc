@@ -59,9 +59,11 @@ alias dcleanup='docker system prune'
 
 export EDITOR=vimx
 alias gs='git status'
-alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit -m "--wip--"'
+alias gd='git diff'
+alias gdc='git diff --cached'
 alias gpr='git pull --rebase'
 alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
+alias grm='git rebase origin/master'
 
 function httpie_docker() {
 	docker run -it --rm --net=host clue/httpie $@

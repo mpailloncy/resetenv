@@ -89,17 +89,20 @@
 # Disable beep/bell on Gnome :
 # gsettings set org.gnome.desktop.wm.preferences audible-bell false
 
-- name: configure git name
+- name: configure git user infos, aliases, ...
+  become: no
   git_config:
-    name: user.name
-    scope: system
-    value: "{{ user.fullName }}"
-
-- name: configure git email
-  git_config:
-    name: user.email
-    scope: system
-    value: "{{ user.email }}"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: global
+  items:
+    - { name: "user.name", value: "{{ user.fullName }}" }
+    - { name: "user.email", value: "{{ user.email }}" }
+    - { name: "push.default", value: "simple" }
+    - { name: "alias.ci", value: "commit" }
+    - { name: "alias.co", value: "checkout" }
+    - { name: "alias.r", value: "rebase" }
+    - { name: "alias.rha", value: "reset --hard" }
 
 - name: set default shell to zsh
   user:
