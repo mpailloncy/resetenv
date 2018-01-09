@@ -51,6 +51,8 @@
    - gradle
    - python3-pip
    - python2-pip
+   - autojump
+   - autojump-zsh
 
 - name: install python packages
   pip:
