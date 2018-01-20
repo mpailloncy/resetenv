@@ -1,58 +1,38 @@
 - include_vars: common-vars.yml
 
-- name: Check that the current machine is a Fedora 27
-  assert: { that: "ansible_distribution == 'Fedora' and ansible_distribution_version == '27'" }
+- name: Check that the current machine is a Ubuntu
+  assert: { that: "ansible_distribution == 'Ubuntu'" }
 
 ###############################################################################################
 # install packages
 #
-- name: Install RPMFusion free repository
-  dnf:
-    name: "http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-27.noarch.rpm"
-    state: present
-  tags: rpmfusion
-
-- name: Install RPMFusion non-free repository
-  dnf:
-    name: "http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-27.noarch.rpm"
-    state: present
-  tags: rpmfusion
 
 - name: install packages
-  dnf:
-    name: "{{ item }}"
+  apt:
+    package: "{{ item }}"
     state: present
   with_items:
    - zsh
-   - libselinux-python
    - git
    - tig
    - htop
    - tree
    - unzip
-   - vagrant
-   - vagrant-libvirt
-   - VirtualBox
-   - kernel-devel
    - golang
-   - java-1.8.0-openjdk-devel
+   - openjdk-8-jdk
    - groovy
    - ntpdate
    - tmux
    - tmuxinator
-   - keepass
+   - keepass2
    - vlc
    - powerline
-   - tmux-powerline
-   - vim-X11
-   - vim-powerline
    - vifm
    - maven
    - gradle
    - python3-pip
-   - python2-pip
+   - python-pip
    - autojump
-   - autojump-zsh
 
 - name: install python packages
   pip:
@@ -213,23 +193,7 @@
 
 - name: set vifm color schema
   lineinfile:
-    dest: "{{ user.home }}/.config/vifm/vifmrc"
+    dest: "{{ user.home }}/.vifm/vifmrc"
     line: 'colorscheme solarized-dark'
     insertafter: EOF
     state: present
-
-###############################################################################################
-# VirtualBox
-#
-
-# Installing the typical 'kmod-VirtualBox' package through dnf won't work because it has to be
-# aligned/republished with the latest kernel and it rarely is.
-- name: Configure kernel module for VirtualBox
-  shell:  'akmods --kernel $( uname -r )'
-  changed_when: false
-  tags: VirtualBox
-
-- name: Configure kernel module for VirtualBox
-  shell: systemctl restart systemd-modules-load.service
-  changed_when: false
-  tags: VirtualBox

@@ -27,7 +27,7 @@ alias ll='ls -lh'
 alias ls='ls --color=tty'
 alias l=ls
 
-alias vi="vimx"
+alias vi="vim"
 
 alias get='sudo dnf install'
 alias search='sudo dnf search'
@@ -57,7 +57,7 @@ alias dm='docker-machine'
 alias dc='docker-compose'
 alias dcleanup='docker system prune'
 
-export EDITOR=vimx
+export EDITOR=vim
 alias gs='git status'
 alias gd='git diff'
 alias gdc='git diff --cached'
@@ -77,8 +77,6 @@ function resetenv() {
 alias r=resetenv
 
 export PATH={{ tools.path }}/sublime_text_3:$PATH
-alias s='sublime_text'
-alias sub='sublime_text'
 
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0
 export PATH=$JAVA_HOME/bin:$PATH
@@ -113,12 +111,11 @@ alias hexpass="openssl rand -hex 24"
 # trailing whitespace at the end is necessary to expand "aliased" arguments
 alias watch='watch --color '
 
-# Default gpg is 1.4 on Fedora ..
 alias gpg="gpg2"
 
 export PS1="[$MODE] $PS1"
 
-source /usr/share/powerline/zsh/powerline.zsh
+source /usr/share/powerline/bindings/zsh/powerline.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

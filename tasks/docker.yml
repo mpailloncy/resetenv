@@ -1,14 +1,17 @@
 
-- name: docker-ce dnf repo configuration
-  template:
-    src: docker/docker-ce.repo
-    owner: root
-    group: root
-    dest: /etc/yum.repos.d/docker-ce.repo
+
+- name: Add Docker Apt signing key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+    state: present
 
 - name: install packages
-  dnf:
-    name: docker-ce-{{ docker.engine.version }}.ce-1.fc27
+  apt:
+    package: "docker-ce={{ docker.engine.version }}~ce-0~ubuntu"
     state: present
 
 - name: Create a docker group
@@ -22,14 +25,14 @@
     groups: docker
     append: yes
 
-- name: Docker systemd configuration
+- name: Docker daemon configuration
   template:
-    src: docker/docker-systemd-config
+    src: docker/daemon.json
     owner: root
     group: root
-    dest: /usr/lib/systemd/system/docker.service
+    dest: /etc/docker/daemon.json
   notify:
-   - restart docker
+    - restart docker
 
 - name: start and configure Docker
   systemd:

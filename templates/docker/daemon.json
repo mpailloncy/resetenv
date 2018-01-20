@@ -1,0 +1,4 @@
+{
+	"storage-driver": "{{ docker.engine.storage_driver }}",
+	"bip": "{{ docker.engine.bip }}"
+}
