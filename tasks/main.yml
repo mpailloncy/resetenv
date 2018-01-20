@@ -154,13 +154,6 @@
     group: "{{ user.name }}"
     state: directory
 
-- name: add tmuxinator config file
-  template:
-    src: tmuxinator/work.yml
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    dest: "{{ user.home }}/.tmuxinator/work.yml"
-
 - name: add vimrc file
   template:
     src: vimrc
