@@ -1,0 +1,34 @@
+---
+
+- name: Create vault directory
+  file:
+    path: "{{ tools.path }}/vault"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    state: directory
+
+- { include: get-and-cache.yml, toget: "{{ tools.vault.url }}" }
+
+- name: Copy vault zip to tools directory
+  copy:
+    src: "{{ cached }}"
+    dest: "{{ tools.path }}/vault/"
+  when: cache_changed
+
+- name: Unzip vault
+  unarchive:
+    src: "{{ tools.path }}/vault/{{ tools.vault.zip }}"
+    dest: "{{ tools.path }}/vault/"
+  when: cache_changed
+
+- name: Cleanup downloaded zip file
+  file:
+    path: "{{ tools.path }}/vault/{{ tools.vault.zip }}"
+    state: absent
+  when: cache_changed
+
+- name: Set +x on vault executable
+  file:
+    path: "{{ tools.path }}/vault/vault"
+    state: file
+    mode: "u+rwx,g+rx"

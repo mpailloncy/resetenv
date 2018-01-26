@@ -85,6 +85,8 @@ alias v="vagrant"
 export PATH={{ tools.path }}/terraform/:$PATH
 export PATH={{ tools.path }}/packer/:$PATH
 alias p="packer"
+export PATH={{ tools.path }}/vault/:$PATH
+alias p="vault"
 
 export PATH={{ tools.path }}/kubernetes/:$PATH
 alias k="kubectl"
