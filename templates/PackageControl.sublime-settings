@@ -1,7 +1,0 @@
-{
-	"installed_packages":
-	[
-		"EditorConfig",
-		"SublimeLinter-shellcheck"
-	]
-}

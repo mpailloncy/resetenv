@@ -1,4 +1,6 @@
 - include_vars: common-vars.yml
+  tags:
+    - git
 
 - name: Check that the current machine is a Ubuntu
   assert: { that: "ansible_distribution == 'Ubuntu'" }
@@ -12,11 +14,13 @@
     package: "{{ item }}"
     state: present
   with_items:
-   - zsh
    - git
    - tig
    - htop
    - tree
+   - jq
+   - curl
+   - powerline
    - unzip
    - golang
    - openjdk-8-jdk
@@ -24,15 +28,15 @@
    - ntpdate
    - tmux
    - tmuxinator
-   - keepass2
+   - keepassx
    - vlc
-   - powerline
-   - vifm
    - maven
    - gradle
    - python3-pip
    - python-pip
    - autojump
+   - scdaemon
+   - network-manager-openvpn
 
 - name: install python packages
   pip:
@@ -51,6 +55,8 @@
 # Terraform
 #
 - include: terraform.yml
+  tags:
+    - terraform
 
 ###############################################################################################
 # Packer
@@ -73,14 +79,15 @@
 
 # Disable beep/bell on Gnome :
 # gsettings set org.gnome.desktop.wm.preferences audible-bell false
+#
 
-- name: configure git user infos, aliases, ...
+- name: configure git user infos, aliases
   become: no
   git_config:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     scope: global
-  items:
+  loop:
     - { name: "user.name", value: "{{ user.fullName }}" }
     - { name: "user.email", value: "{{ user.email }}" }
     - { name: "push.default", value: "simple" }
@@ -88,6 +95,9 @@
     - { name: "alias.co", value: "checkout" }
     - { name: "alias.r", value: "rebase" }
     - { name: "alias.rha", value: "reset --hard" }
+    - { name: "commit.template", value: "~/.gitmessage" }
+  tags:
+    - git
 
 - name: configure git GPG config
   become: no
@@ -96,20 +106,9 @@
     value: "{{ item.value }}"
     scope: global
   when: user.gpgsign is defined and user.gpgsign == true
-  items:
+  loop:
     - { name: "commit.gpgsign", value: "true" }
     - { name: "user.signingkey", value: "{{ user.signingkey }}" }
-
-- name: set default shell to zsh
-  user:
-    name: "{{ user.name }}"
-    shell: /usr/bin/zsh
-    state: present
-
-- name: install oh-my-zsh
-  git:
-    repo: "https://github.com/robbyrussell/oh-my-zsh"
-    dest: "{{ user.home }}/.oh-my-zsh"
 
 - name: clone fzf repository
   git:
@@ -120,20 +119,12 @@
   shell: "{{ user.home }}/.fzf/install --all"
   changed_when: false
 
-- name: add fzf zsh config file
+- name: add bashrc file
   template:
-    src: fzf.zsh
+    src: bashrc
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    dest: "{{ user.home }}/.fzf.zsh"
-    mode: 0644
-
-- name: add zshrc file
-  template:
-    src: zshrc
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    dest: "{{ user.home }}/.zshrc"
+    dest: "{{ user.home }}/.bashrc"
     mode: 0644
 
 - name: add tmux config file (powerline)
@@ -142,14 +133,6 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     dest: "{{ user.home }}/.tmux.conf"
-    mode: 0644
-
-- name: add tmuxinator-completion file for zsh
-  copy:
-    src: "tmuxinator-completion.zsh"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    dest: "{{ user.home }}/.tmuxinator-completion.zsh"
     mode: 0644
 
 - name: create tmuxinator config directories
@@ -180,18 +163,3 @@
     dest: "{{ user.home }}/.vim/colors/lucius.vim"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-
-- name: add vifm_solarized-dark color schema
-  template:
-    src: vifm-solarized-dark
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    dest: "{{ user.home }}/.config/vifm/colors/solarized-dark"
-    mode: 0644
-
-- name: set vifm color schema
-  lineinfile:
-    dest: "{{ user.home }}/.vifm/vifmrc"
-    line: 'colorscheme solarized-dark'
-    insertafter: EOF
-    state: present
