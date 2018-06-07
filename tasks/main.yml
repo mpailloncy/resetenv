@@ -37,6 +37,8 @@
    - autojump
    - scdaemon
    - network-manager-openvpn
+   - tcpdump 
+   - ssldump
 
 - name: install python packages
   pip:
