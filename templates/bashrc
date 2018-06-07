@@ -66,16 +66,30 @@ alias p="packer"
 export PATH={{ tools.path }}/vault/:$PATH
 
 export PATH={{ tools.path }}/kubernetes/:$PATH
-alias k="kubectl"
-alias kg='kubectl get'
-alias kgpo='kubectl get pods'
-alias krm='kubectl delete'
-alias krmf='kubectl delete -f'
-alias ka='kubectl apply -f'
-alias klo='kubectl logs -f'
-alias kex='kubectl exec -i -t'
-
 source <(kubectl completion bash)
+alias k=kubectl
+complete -o default -F __start_kubectl k
+
+kx () {
+	local selectedPod=$(kubectl get pods --all-namespaces -owide | fzf --tac)
+	local namespace=$(awk '{print $1}' <<< $selectedPod)
+	local podName=$(awk '{print $2}' <<< $selectedPod)
+
+	local cmd=${@:-"bash"}
+
+	echo kubectl exec -it --namespace $namespace $podName $cmd
+	kubectl exec -it --namespace $namespace $podName $cmd
+}
+
+kl () {
+	local attr=${@:-""}
+	local selectedPod=$(kubectl get pods --all-namespaces -owide | fzf --tac)
+	local namespace=$(awk '{print $1}' <<< $selectedPod)
+	local podName=$(awk '{print $2}' <<< $selectedPod)
+
+	echo kubectl logs -f $attr --namespace $namespace $podName
+	kubectl logs -f $attr --namespace $namespace $podName
+}
 
 alias f=vifm
 
