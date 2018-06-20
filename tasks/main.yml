@@ -113,6 +113,7 @@
     - { name: "user.signingkey", value: "{{ user.signingkey }}" }
 
 - name: clone fzf repository
+  become: no
   git:
     repo: "https://github.com/junegunn/fzf.git"
     dest: "{{ user.home }}/.fzf"

@@ -70,7 +70,10 @@ source <(kubectl completion bash)
 alias k=kubectl
 complete -o default -F __start_kubectl k
 
-kx () {
+alias kctx=kubectx
+alias kns=kubens
+
+kx() {
 	local selectedPod=$(kubectl get pods --all-namespaces -owide | fzf --tac)
 	local namespace=$(awk '{print $1}' <<< $selectedPod)
 	local podName=$(awk '{print $2}' <<< $selectedPod)
@@ -81,7 +84,7 @@ kx () {
 	kubectl exec -it --namespace $namespace $podName $cmd
 }
 
-kl () {
+kl() {
 	local attr=${@:-""}
 	local selectedPod=$(kubectl get pods --all-namespaces -owide | fzf --tac)
 	local namespace=$(awk '{print $1}' <<< $selectedPod)

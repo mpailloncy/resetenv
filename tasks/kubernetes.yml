@@ -54,3 +54,23 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "u+rwx,g+rx"
+
+- name: clone kubectx repository
+  become: no
+  git:
+    repo: "https://github.com/ahmetb/kubectx"
+    dest: "{{ user.home }}/tools/kubernetes/kubectx-repo"
+
+- name: Create kubectx symlink
+  file:
+    src: "{{ user.home }}/tools/kubernetes/kubectx-repo/kubectx"
+    dest: "{{ user.home }}/tools/kubernetes/kubectx"
+    state: link
+    mode: "u+rx,a+x,g+x"
+
+- name: Create kubens symlink
+  file:
+    src: "{{ user.home }}/tools/kubernetes/kubectx-repo/kubens"
+    dest: "{{ user.home }}/tools/kubernetes/kubens"
+    state: link
+    mode: "u+rx,a+x,g+x"
