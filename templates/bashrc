@@ -70,8 +70,17 @@ source <(kubectl completion bash)
 alias k=kubectl
 complete -o default -F __start_kubectl k
 
-alias kctx=kubectx
-alias kns=kubens
+kc() {
+	local selectedCtx=$(kubectx | fzf --header "Choose target context ^")
+	echo kubectx $selectedCtx
+	kubectx $selectedCtx
+}
+
+kns() {
+	local selectedNs=$(kubens | fzf --header "Context=$(kubectl config current-context). Choose target namespace ^")
+	echo kubens $selectedNs
+	kubens $selectedNs
+}
 
 kx() {
 	local selectedPod=$(kubectl get pods --all-namespaces -owide | fzf --tac)
@@ -93,6 +102,8 @@ kl() {
 	echo kubectl logs -f $attr --namespace $namespace $podName
 	kubectl logs -f $attr --namespace $namespace $podName
 }
+
+source <(helm completion bash)
 
 alias f=vifm
 
